@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Content from "./Component/Content";
+import Navbar from "./Component/Navbar";
+import Sidebar from "./Component/Sidebar";
+
+
+
+
+
 
 function App() {
+    
+    
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-full w-full flex">
+      <div className="h-full w-[100px]">
+      <Sidebar></Sidebar>
+      </div>
+      
+      <div className="flex w-full flex-col">
+        <div className="h-[48px] justify-center items-center">
+          <Navbar></Navbar>
+        </div>
+        <div className="h-full">
+          <Content ></Content>
+        </div>
+      </div>
     </div>
   );
 }
