@@ -6,6 +6,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { newData } from '../stores/data';
 import { useDispatch,useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { toast,ToastContainer } from 'react-toastify';
+import './ReactToastify.css';
+import axios from 'axios';
 const someexamples = [
   { title: 'elonmusk'},
   { title: 'finkd'},
@@ -15,27 +18,37 @@ const someexamples = [
 
 
 
-const options = {
-  method: 'GET',
-  headers: {
-    'X-RapidAPI-Key': '210944a851msha72bda890597938p1fb37bjsn2026402859bc',
-    'X-RapidAPI-Host': 'twitter154.p.rapidapi.com'
-  }
-};
 
 
 
 const Navbar = () => {
   const [id,setId] = useState("")
-  const url = `https://twitter154.p.rapidapi.com/user/tweets?username=${id}&limit=40` ;
-  console.log(url)
+ 
+  
+  
+  const options = {
+    method: 'GET',
+    url: 'https://twitter154.p.rapidapi.com/user/tweets',
+    params: {username: `${id}`, limit: '40'},
+    headers: {
+      'X-RapidAPI-Key': '210944a851msha72bda890597938p1fb37bjsn2026402859bc',
+      'X-RapidAPI-Host': 'twitter154.p.rapidapi.com'
+    }
+  };
+
+
   const dispatch = useDispatch()
   const {data} = useSelector(state => state.data)
   console.log("navbar",data)
   const [statement,setStatement] = useState("")
   const [name,setName] = useState("")
+  
+  
 
-  console.log(id)
+  const notify = () => {
+    toast("Default Notification !");
+    
+  }
 
   useEffect(()=>{
     data?.forEach(element => {
@@ -53,10 +66,11 @@ const Navbar = () => {
 
   useEffect(()=>{
     const timer = setTimeout(() => {
-      fetch(url, options)
-    .then(res => res.json())
-    .then(json => dispatch(newData(json.results)) )
-    .catch(err => console.error('error:' + err))
+      axios.request(options).then(function (response) {
+        console.log(response.data);
+      }).catch(function (error) {
+        toast(error.message);
+      });
     }, 1000);
     return () => clearTimeout(timer);
   },[id])
@@ -73,6 +87,7 @@ const Navbar = () => {
                         <a className='text-blue-900 font-semibold item-center justify-center my-[14px] mx-3'>Twitter</a>
                       </div>
                       
+                      <ToastContainer/>
                       
                       <div className='flex w-[400px] h-[48px] relative my-2 mx-[40px]'>
                       <Autocomplete
