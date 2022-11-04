@@ -15,7 +15,7 @@ function Content() {
   const {data} = useSelector(state => state.data)
   console.log(data)
   return (
-    data?.map((item,index)=>(
+    data?.result.map((item,index)=>(
       <div key={index} className='bg-white mt-10 mr-[150px] relative flex flex-col   ml-20  rounded-[30px]'>
       <div className='flex ml-14'>
         <Avatar sx={{height:"40px" , width:"28"}} className='mt-6' src={item.user.profile_pic_url}></Avatar>
